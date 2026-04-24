@@ -1,0 +1,22 @@
+<div class="page-header"><div class="container"><h2>{{ isEdit ? 'Sửa' : 'Tạo' }} tour</h2></div></div>
+<section class="section">
+  <div class="container container-sm">
+    <div class="card"><div class="card-body">
+      <form (ngSubmit)="save()">
+        <div class="form-group"><label>Tên *</label><input type="text" class="form-control" [(ngModel)]="form.name" name="name" required></div>
+        <div class="form-group"><label>Slug *</label><input type="text" class="form-control" [(ngModel)]="form.slug" name="slug" required></div>
+        <div class="grid grid-3">
+          <div class="form-group"><label>Thời gian</label><input type="text" class="form-control" [(ngModel)]="form.duration" name="duration" placeholder="VD: 3 ngày 2 đêm"></div>
+          <div class="form-group"><label>Số người tối đa</label><input type="number" class="form-control" [(ngModel)]="form.maxPeople" name="maxPeople"></div>
+          <div class="form-group"><label>Giá *</label><input type="number" class="form-control" [(ngModel)]="form.price" name="price" required></div>
+        </div>
+        <div class="form-group"><label>Giá giảm</label><input type="number" class="form-control" [(ngModel)]="form.discountPrice" name="discountPrice"></div>
+        <div class="form-group"><label>Mô tả *</label><textarea class="form-control" [(ngModel)]="form.description" name="description" rows="4" required></textarea></div>
+        <div class="form-group"><label>URL hình ảnh</label><input type="text" class="form-control" [(ngModel)]="form.imageUrl" name="imageUrl"></div>
+        <div class="form-group"><label><input type="checkbox" [(ngModel)]="form.isFeatured"> Nổi bật</label></div>
+        <div class="form-group"><label><input type="checkbox" [(ngModel)]="form.isActive"> Hoạt động</label></div>
+        <div style="display:flex;gap:0.75rem;"><button type="submit" class="btn btn-primary" [disabled]="loading">{{ loading ? 'Đang lưu...' : 'Lưu' }}</button><a routerLink="/admin/tours" class="btn btn-outline">Hủy</a></div>
+      </form>
+    </div></div>
+  </div>
+</section>

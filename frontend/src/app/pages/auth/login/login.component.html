@@ -1,0 +1,30 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Đăng nhập</h1>
+      <p>Chào mừng bạn quay trở lại!</p>
+    </div>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" class="form-control" [(ngModel)]="email" name="email" required placeholder="Nhập email của bạn">
+      </div>
+      <div class="form-group">
+        <label>Mật khẩu</label>
+        <input type="password" class="form-control" [(ngModel)]="password" name="password" required placeholder="Nhập mật khẩu">
+      </div>
+      <div class="form-error" *ngIf="error">{{ error }}</div>
+      <button type="submit" class="btn btn-primary btn-lg" style="width:100%;" [disabled]="loading">
+        {{ loading ? 'Đang đăng nhập...' : 'Đăng nhập' }}
+      </button>
+    </form>
+    <div class="auth-footer">
+      <p>Chưa có tài khoản? <a routerLink="/auth/register">Đăng ký ngay</a></p>
+    </div>
+    <div class="demo-accounts">
+      <p><strong>Demo accounts:</strong></p>
+      <p>Admin: admin&#64;webquangbadulich.com / admin123</p>
+      <p>User: user&#64;webquangbadulich.com / user123</p>
+    </div>
+  </div>
+</div>

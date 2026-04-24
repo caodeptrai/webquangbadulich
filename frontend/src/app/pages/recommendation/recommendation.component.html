@@ -1,0 +1,79 @@
+<div class="page-header" style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);">
+  <div class="container">
+    <span class="material-icons" style="font-size:3rem;margin-bottom:0.5rem;">psychology</span>
+    <h1>Gợi Ý Thông Minh</h1>
+    <p>Trả lời vài câu hỏi để nhận gợi ý địa điểm phù hợp với bạn</p>
+  </div>
+</div>
+<section class="section">
+  <div class="container">
+    <div class="rec-layout">
+      <div class="rec-form">
+        <h3><span class="material-icons">quiz</span> Trả lời câu hỏi</h3>
+
+        <div class="form-group">
+          <label>Bạn muốn đi khu vực nào?</label>
+          <div class="checkbox-group">
+            <label class="checkbox-item"><input type="checkbox" [(ngModel)]="preferences.north"> Miền Bắc</label>
+            <label class="checkbox-item"><input type="checkbox" [(ngModel)]="preferences.central"> Miền Trung</label>
+            <label class="checkbox-item"><input type="checkbox" [(ngModel)]="preferences.south"> Miền Nam</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Loại hình du lịch?</label>
+          <div class="checkbox-group">
+            <label class="checkbox-item"><input type="checkbox" [(ngModel)]="preferences.beach"> Biển & Đảo</label>
+            <label class="checkbox-item"><input type="checkbox" [(ngModel)]="preferences.mountain"> Núi & Rừng</label>
+            <label class="checkbox-item"><input type="checkbox" [(ngModel)]="preferences.historic"> Di tích & Lịch sử</label>
+            <label class="checkbox-item"><input type="checkbox" [(ngModel)]="preferences.nature"> Thiên nhiên</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Ngân sách của bạn?</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" [(ngModel)]="preferences.budget" value="low"> Tiết kiệm</label>
+            <label class="radio-item"><input type="radio" [(ngModel)]="preferences.budget" value="medium"> Trung bình</label>
+            <label class="radio-item"><input type="radio" [(ngModel)]="preferences.budget" value="high"> Cao cấp</label>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg" style="width:100%;" (click)="getRecommendations()" [disabled]="loading">
+          <span class="material-icons">auto_awesome</span>
+          {{ loading ? 'Đang gợi ý...' : 'Gợi ý cho tôi' }}
+        </button>
+      </div>
+
+      <div class="rec-results">
+        <div *ngIf="!results && !loading" class="empty-state">
+          <span class="material-icons">travel_explore</span>
+          <h3>Chọn sở thích của bạn</h3>
+          <p>Chúng tôi sẽ gợi ý những địa điểm phù hợp nhất</p>
+        </div>
+
+        <div *ngIf="loading" class="loading-spinner"><div class="spinner"></div></div>
+
+        <div *ngIf="results?.recommendations?.length" class="results-list">
+          <h3>Kết quả gợi ý ({{ results.recommendations.length }} địa điểm)</h3>
+          <p class="algo-note">Algorithm: {{ results.algorithm }}</p>
+          <div *ngFor="let r of results.recommendations" class="result-card card">
+            <img [src]="r.images?.[0]?.url || 'https://picsum.photos/seed/' + r.slug + '/200/150'" [alt]="r.name">
+            <div class="result-info">
+              <h4>{{ r.name }}</h4>
+              <p class="location"><span class="material-icons">location_on</span> {{ r.province?.name }}</p>
+              <div class="score-bar">
+                <div class="score-fill" [style.width.%]="r.recommendationScore"></div>
+              </div>
+              <p class="score-text">Match: {{ r.recommendationScore | number:'1.0-0' }}%</p>
+              <div class="reasons">
+                <span class="badge badge-primary" *ngFor="let reason of r.matchReasons.slice(0,2)">{{ reason }}</span>
+              </div>
+            </div>
+            <a [routerLink]="['/destinations', r.slug]" class="btn btn-sm btn-outline">Xem chi tiết</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

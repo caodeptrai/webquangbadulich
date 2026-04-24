@@ -1,0 +1,35 @@
+<div class="page-header"><div class="container"><h1>Cẩm Nang Du Lịch</h1><p>Kinh nghiệm, mẹo hay và lịch trình từ những người đã đi</p></div></div>
+<section class="section">
+  <div class="container">
+    <div class="filters-bar">
+      <div class="filter-search">
+        <span class="material-icons">search</span>
+        <input type="text" [(ngModel)]="search" (ngModelChange)="loadArticles()" placeholder="Tìm kiếm bài viết..." class="search-input">
+      </div>
+      <select class="form-control" [(ngModel)]="category" (change)="loadArticles()">
+        <option value="">Tất cả</option>
+        <option *ngFor="let c of categories" [value]="c.slug">{{ c.name }}</option>
+      </select>
+    </div>
+    <div class="loading-spinner" *ngIf="loading"><div class="spinner"></div></div>
+    <div class="grid grid-3" *ngIf="!loading">
+      <a *ngFor="let a of articles" [routerLink]="['/articles', a.slug]" class="card article-card fade-in">
+        <div class="card-image">
+          <img [src]="a.imageUrl || 'https://picsum.photos/seed/' + a.slug + '/400/250'" [alt]="a.title">
+          <span class="badge badge-primary card-cat">{{ a.category?.name }}</span>
+        </div>
+        <div class="card-body">
+          <h3>{{ a.title }}</h3>
+          <p class="excerpt">{{ a.excerpt }}</p>
+          <div class="card-meta">
+            <span><span class="material-icons">visibility</span> {{ a.viewCount }}</span>
+            <span><span class="material-icons">calendar_today</span> {{ a.publishedAt | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="pagination" *ngIf="!loading && pagination.totalPages > 1">
+      <button *ngFor="let p of pageNumbers" [class.active]="p === pagination.page" (click)="goToPage(p)">{{ p }}</button>
+    </div>
+  </div>
+</section>

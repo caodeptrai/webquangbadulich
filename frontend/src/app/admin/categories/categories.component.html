@@ -1,0 +1,45 @@
+
+<section class="section">
+  <div class="container">
+    <div class="grid grid-2">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-section-header">
+            <span class="material-icons">place</span>
+            <h3>Điểm đến</h3>
+          </div>
+          <div *ngFor="let c of destCategories" class="cat-item">
+            <div class="cat-info">
+              <span class="cat-name">{{ c.name }}</span>
+              <span class="cat-count">{{ c._count?.destinations }} mục</span>
+            </div>
+            <button class="btn btn-sm btn-outline btn-outline-danger" (click)="delete('destinations', c.id)"><span class="material-icons">delete</span></button>
+          </div>
+          <div class="add-form">
+            <input type="text" class="form-control" [(ngModel)]="newDestCat" placeholder="Tên danh mục mới">
+            <button class="btn btn-primary btn-sm" (click)="add('destinations')"><span class="material-icons">add</span> Thêm</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-section-header">
+            <span class="material-icons">article</span>
+            <h3>Bài viết</h3>
+          </div>
+          <div *ngFor="let c of artCategories" class="cat-item">
+            <div class="cat-info">
+              <span class="cat-name">{{ c.name }}</span>
+              <span class="cat-count">{{ c._count?.articles }} mục</span>
+            </div>
+            <button class="btn btn-sm btn-outline btn-outline-danger" (click)="delete('articles', c.id)"><span class="material-icons">delete</span></button>
+          </div>
+          <div class="add-form">
+            <input type="text" class="form-control" [(ngModel)]="newArtCat" placeholder="Tên danh mục mới">
+            <button class="btn btn-primary btn-sm" (click)="add('articles')"><span class="material-icons">add</span> Thêm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

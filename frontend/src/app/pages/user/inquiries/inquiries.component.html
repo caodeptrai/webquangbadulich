@@ -1,0 +1,21 @@
+<div class="page-header"><div class="container"><h1>Yêu Cầu Của Tôi</h1></div></div>
+<section class="section">
+  <div class="container container-sm">
+    <div class="loading-spinner" *ngIf="loading"><div class="spinner"></div></div>
+    <table class="data-table" *ngIf="!loading && inquiries.length">
+      <thead><tr><th>Ngày</th><th>Tiêu đề</th><th>Loại</th><th>Trạng thái</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let i of inquiries">
+          <td>{{ i.createdAt | date:'dd/MM/yyyy' }}</td>
+          <td>{{ i.subject }}</td>
+          <td><span class="badge badge-primary">{{ i.type }}</span></td>
+          <td><span class="badge" [class.badge-warning]="i.status==='pending'" [class.badge-success]="i.status==='replied'" [class.badge-danger]="i.status==='closed'">{{ i.status }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="empty-state" *ngIf="!loading && inquiries.length === 0">
+      <span class="material-icons">inbox</span>
+      <h3>Chưa có yêu cầu nào</h3>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,50 @@
+
+<section class="section">
+  <div class="container">
+    <div class="admin-toolbar">
+      <div class="filter-status">
+        <select class="form-control" [(ngModel)]="filterStatus" (change)="load()">
+          <option value="">Tất cả trạng thái</option>
+          <option value="pending">Chờ xử lý</option>
+          <option value="replied">Đã trả lời</option>
+          <option value="closed">Đã đóng</option>
+        </select>
+      </div>
+    </div>
+    <div class="loading-spinner" *ngIf="loading"><div class="spinner"></div></div>
+    <div class="data-table-wrapper" *ngIf="!loading">
+      <table class="data-table">
+        <thead><tr><th>Ngày</th><th>Người gửi</th><th>Tiêu đề</th><th>Loại</th><th>Trạng thái</th><th>Hành động</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let i of inquiries">
+            <td style="color:var(--gray);font-size:0.875rem;white-space:nowrap;">{{ i.createdAt | date:'dd/MM/yyyy' }}</td>
+            <td>
+              <div class="inquiry-sender">
+                <strong>{{ i.name }}</strong>
+                <span>{{ i.email }}</span>
+              </div>
+            </td>
+            <td style="max-width:200px;"><span style="display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;">{{ i.subject }}</span></td>
+            <td><span class="badge badge-primary">{{ i.type }}</span></td>
+            <td>
+              <select class="form-control" [(ngModel)]="i.status" (change)="updateStatus(i)" style="font-size:0.8125rem;padding:0.25rem 0.5rem;min-width:120px;">
+                <option value="pending">Chờ xử lý</option>
+                <option value="replied">Đã trả lời</option>
+                <option value="closed">Đã đóng</option>
+              </select>
+            </td>
+            <td>
+              <div class="action-btns">
+                <button class="btn btn-sm btn-danger" (click)="delete(i.id)"><span class="material-icons">delete</span></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="empty-state" *ngIf="!loading && inquiries.length === 0">
+      <span class="material-icons">inbox</span>
+      <h3>Không có yêu cầu nào</h3>
+    </div>
+  </div>
+</section>

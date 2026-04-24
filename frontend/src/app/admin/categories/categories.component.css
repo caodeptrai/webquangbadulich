@@ -1,0 +1,10 @@
+.card-section-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 2px solid #f1f5f9; .material-icons { color: var(--primary); font-size: 1.5rem; } h3 { margin: 0; font-size: 1.125rem; } }
+.cat-item { display: flex; justify-content: space-between; align-items: center; padding: 0.875rem 0; border-bottom: 1px solid #f1f5f9; }
+.cat-item:last-of-type { border-bottom: none; }
+.cat-info { display: flex; flex-direction: column; gap: 0.125rem; }
+.cat-name { font-weight: 600; color: var(--dark); font-size: 0.9375rem; }
+.cat-count { font-size: 0.75rem; color: var(--gray); }
+.add-form { display: flex; gap: 0.75rem; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #f1f5f9; input { flex: 1; } }
+.btn-outline-danger { border-color: rgba(220,53,69,0.3); color: var(--danger); &:hover { background: var(--danger); color: white; border-color: var(--danger); } }
+.btn-sm { padding: 0.375rem 0.75rem; font-size: 0.8125rem; }
+.btn-sm .material-icons { font-size: 1rem; }

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["dashboard.component.ts"],
+  "sourcesContent": ["\n    .mini-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9; font-size: 0.9375rem; &:last-child { border-bottom: none; } }\n  "],
+  "mappings": ";AACI,CAAA;AAAa,WAAA;AAAe,mBAAA;AAAgC,eAAA;AAAqB,WAAA,QAAA;AAAoB,iBAAA,IAAA,MAAA;AAAkC,aAAA;;AAAsB,CAA7J,SAA6J;AAAe,iBAAA;;",
+  "names": []
+}

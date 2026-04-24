@@ -1,0 +1,29 @@
+<div *ngIf="article" class="fade-in">
+  <div class="article-hero">
+    <img [src]="article.imageUrl || 'https://picsum.photos/seed/' + article.slug + '/1200/500'" [alt]="article.title">
+    <div class="hero-overlay">
+      <div class="container">
+        <span class="badge badge-primary">{{ article.category?.name }}</span>
+        <h1>{{ article.title }}</h1>
+        <div class="article-meta">
+          <span><span class="material-icons">person</span> {{ article.author?.fullName }}</span>
+          <span><span class="material-icons">calendar_today</span> {{ article.publishedAt | date:'dd/MM/yyyy' }}</span>
+          <span><span class="material-icons">visibility</span> {{ article.viewCount }} lượt xem</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section class="section">
+    <div class="container">
+      <div class="article-layout">
+        <article class="article-content">
+          <div class="content" [innerHTML]="article.content"></div>
+          <div class="article-tags" *ngIf="article.tags">
+            <span class="tag" *ngFor="let t of getTags()">#{{ t }}</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="loading-spinner" *ngIf="!article"><div class="spinner"></div></div>

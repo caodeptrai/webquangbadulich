@@ -1,0 +1,18 @@
+
+<section class="section">
+  <div class="container container-sm">
+    <div class="card"><div class="card-body">
+      <form (ngSubmit)="save()">
+        <div class="form-group"><label>Tiêu đề *</label><input type="text" class="form-control" [(ngModel)]="form.title" name="title" required></div>
+        <div class="form-group"><label>Danh mục *</label><select class="form-control" [(ngModel)]="form.categoryId" name="categoryId" required><option value="">Chọn danh mục</option><option *ngFor="let c of categories" [value]="c.id">{{ c.name }}</option></select></div>
+        <div class="form-group"><label>Tóm tắt</label><textarea class="form-control" [(ngModel)]="form.excerpt" name="excerpt" rows="2"></textarea></div>
+        <div class="form-group"><label>Nội dung HTML *</label><textarea class="form-control" [(ngModel)]="form.content" name="content" rows="10" required></textarea></div>
+        <div class="form-group"><label>URL hình ảnh</label><input type="text" class="form-control" [(ngModel)]="form.imageUrl" name="imageUrl"></div>
+        <div class="form-group"><label>Tags (comma-separated)</label><input type="text" class="form-control" [(ngModel)]="form.tags" name="tags" placeholder="VD: sapa,mùa lúa chín"></div>
+        <div class="form-group"><label><input type="checkbox" [(ngModel)]="form.isFeatured"> Nổi bật</label></div>
+        <div class="form-group"><label><input type="checkbox" [(ngModel)]="form.isPublished"> Xuất bản</label></div>
+        <div style="display:flex;gap:0.75rem;"><button type="submit" class="btn btn-primary" [disabled]="loading">{{ loading ? 'Đang lưu...' : 'Lưu' }}</button><a routerLink="/admin/articles" class="btn btn-outline">Hủy</a></div>
+      </form>
+    </div></div>
+  </div>
+</section>

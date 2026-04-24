@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["contact.component.ts"],
+  "sourcesContent": ["\n    .contact-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem; @media(max-width:768px){grid-template-columns:1fr;} }\n    .contact-info { h2 { margin-bottom: 1.5rem; } }\n    .info-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; .material-icons { color: var(--primary); font-size: 1.5rem; margin-top: 0.25rem; } h4 { margin: 0 0 0.25rem; font-size: 1rem; } p { margin: 0; color: var(--gray); } }\n    .contact-form-wrapper { h2 { margin-bottom: 1.5rem; } }\n    .form-success { color: var(--secondary); font-weight: 600; padding: 0.75rem; background: rgba(25,135,84,0.1); border-radius: 8px; margin-bottom: 1rem; }\n  "],
+  "mappings": ";AACI,CAAA;AAAkB,WAAA;AAAe,yBAAA,IAAA;AAAkC,OAAA;;AAAW,OAAA,CAAA,SAAA,EAAA;AAA9E,GAAA;AAAsG,2BAAA;;;AACtF,CAAA,aAAA;AAAK,iBAAA;;AACrB,CAAA;AAAa,WAAA;AAAe,OAAA;AAAW,iBAAA;;AAAuB,CAA9D,UAA8D,CAAA;AAAkB,SAAA,IAAA;AAAuB,aAAA;AAAmB,cAAA;;AAAuB,CAAjJ,UAAiJ;AAAK,UAAA,EAAA,EAAA;AAAqB,aAAA;;AAAmB,CAA9L,UAA8L;AAAI,UAAA;AAAW,SAAA,IAAA;;AACrL,CAAA,qBAAA;AAAK,iBAAA;;AAC7B,CAAA;AAAgB,SAAA,IAAA;AAAyB,eAAA;AAAkB,WAAA;AAAkB,cAAA,KAAA,EAAA,EAAA,GAAA,EAAA,EAAA,EAAA;AAAiC,iBAAA;AAAoB,iBAAA;;",
+  "names": []
+}

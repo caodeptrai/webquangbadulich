@@ -1,0 +1,39 @@
+<div class="chatbot-widget">
+  <button class="chatbot-toggle" (click)="toggleWindow()">
+    <span class="material-icons">{{ isOpen ? 'close' : 'chat' }}</span>
+  </button>
+
+  <div class="chatbot-window" *ngIf="isOpen">
+    <div class="chatbot-header">
+      <span class="material-icons">smart_toy</span>
+      <div>
+        <h4>Trợ lý Du Lịch</h4>
+        <p>Luôn sẵn sàng hỗ trợ bạn</p>
+      </div>
+    </div>
+
+    <div class="chatbot-messages" #messageContainer>
+      <div *ngIf="messages.length === 0" class="welcome-message">
+        <span class="material-icons">waving_hand</span>
+        <p>Xin chào! Tôi là trợ lý du lịch. Hỏi tôi về địa điểm, chi phí, tour... nhé!</p>
+      </div>
+
+      <div *ngFor="let msg of messages" class="message" [class.user]="msg.role === 'user'" [class.bot]="msg.role === 'assistant'">
+        {{ msg.message }}
+      </div>
+
+      <div *ngIf="loading" class="message bot">
+        <span class="typing-indicator">
+          <span></span><span></span><span></span>
+        </span>
+      </div>
+    </div>
+
+    <div class="chatbot-input">
+      <input type="text" [(ngModel)]="inputMessage" (keyup.enter)="sendMessage()" placeholder="Nhập tin nhắn..." [disabled]="loading">
+      <button (click)="sendMessage()" [disabled]="!inputMessage.trim() || loading">
+        <span class="material-icons">send</span>
+      </button>
+    </div>
+  </div>
+</div>

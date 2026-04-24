@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["profile.component.ts"],
+  "sourcesContent": [".profile-card { max-width: 560px; } .form-success { color: var(--secondary); font-weight: 600; padding: 0.75rem; background: rgba(25,135,84,0.1); border-radius: 8px; margin-bottom: 1rem; }"],
+  "mappings": ";AAAA,CAAA;AAAgB,aAAA;;AAAoB,CAAA;AAAgB,SAAA,IAAA;AAAyB,eAAA;AAAkB,WAAA;AAAkB,cAAA,KAAA,EAAA,EAAA,GAAA,EAAA,EAAA,EAAA;AAAiC,iBAAA;AAAoB,iBAAA;;",
+  "names": []
+}
