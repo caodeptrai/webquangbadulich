@@ -134,7 +134,19 @@ export class ApiService {
     return this.http.delete(`${this.base}/articles/${id}`);
   }
 
-  // Reviews
+  getReviews(params?: any): Observable<any> {
+    let httpParams = new HttpParams();
+    if (params) {
+      Object.keys(params).forEach(key => {
+        if (params[key] !== null && params[key] !== undefined && params[key] !== '') {
+          httpParams = httpParams.set(key, params[key].toString());
+        }
+      });
+    }
+    return this.http.get(`${this.base}/reviews`, { params: httpParams });
+  }
+
+  // Review details
   getReviewsByDestination(id: string, page = 1): Observable<any> {
     return this.http.get(`${this.base}/reviews/destination/${id}`, { params: { page, limit: 10 } });
   }
@@ -263,5 +275,22 @@ export class ApiService {
     const formData = new FormData();
     formData.append('image', file);
     return this.http.post(`${this.base}/upload/image`, formData);
+  }
+
+  // Settings
+  getSettings(): Observable<any> {
+    return this.http.get(`${this.base}/settings`);
+  }
+
+  getSettingsByGroup(group: string): Observable<any> {
+    return this.http.get(`${this.base}/settings/group/${group}`);
+  }
+
+  updateSetting(data: any): Observable<any> {
+    return this.http.put(`${this.base}/settings`, data);
+  }
+
+  updateSettingsBulk(settings: any): Observable<any> {
+    return this.http.put(`${this.base}/settings/bulk`, { settings });
   }
 }

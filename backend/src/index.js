@@ -19,6 +19,7 @@ const chatbotRoutes = require('./routes/chatbot.routes');
 const recommendationRoutes = require('./routes/recommendation.routes');
 const uploadRoutes = require('./routes/upload.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
+const settingsRoutes = require('./routes/settings.routes');
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.use('/api/chatbot', chatbotRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/settings', settingsRoutes);
 
 // 404 Handler
 app.use((req, res) => {

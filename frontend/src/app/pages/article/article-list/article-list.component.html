@@ -1,3 +1,4 @@
+
 <div class="page-header"><div class="container"><h1>Cẩm Nang Du Lịch</h1><p>Kinh nghiệm, mẹo hay và lịch trình từ những người đã đi</p></div></div>
 <section class="section">
   <div class="container">
@@ -15,7 +16,31 @@
     <div class="grid grid-3" *ngIf="!loading">
       <a *ngFor="let a of articles" [routerLink]="['/articles', a.slug]" class="card article-card fade-in">
         <div class="card-image">
-          <img [src]="a.imageUrl || 'https://picsum.photos/seed/' + a.slug + '/400/250'" [alt]="a.title">
+          <!-- Image Slider/Carousel if multiple images -->
+          <ng-container *ngIf="a.images && a.images.length > 1">
+            <div class="image-slider">
+              <div class="slider-container" [style.transform]="'translateX(-' + (a.currentImageIndex || 0) * 100 + '%)'">
+                <img *ngFor="let img of a.images" [src]="img.url" [alt]="a.title">
+              </div>
+              <!-- Navigation Dots -->
+              <div class="slider-dots">
+                <span *ngFor="let img of a.images; let i = index"
+                      [class.active]="i === (a.currentImageIndex || 0)"
+                      (click)="setArticleImageIndex(a, i, $event)"></span>
+              </div>
+              <!-- Navigation Arrows -->
+              <button class="slider-arrow prev" (click)="prevImage(a, $event)">
+                <span class="material-icons">chevron_left</span>
+              </button>
+              <button class="slider-arrow next" (click)="nextImage(a, $event)">
+                <span class="material-icons">chevron_right</span>
+              </button>
+            </div>
+          </ng-container>
+          <!-- Single Image or Fallback -->
+          <ng-container *ngIf]="!a.images || a.images.length <= 1">
+            <img [src]="getArticleImage(a)" [alt]="a.title">
+          </ng-container>
           <span class="badge badge-primary card-cat">{{ a.category?.name }}</span>
         </div>
         <div class="card-body">
@@ -33,3 +58,78 @@
     </div>
   </div>
 </section>
+
+<style>
+.image-slider {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+.slider-container {
+  display: flex;
+  transition: transform 0.3s ease;
+  height: 100%;
+}
+.slider-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.slider-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  z-index: 2;
+}
+.slider-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.slider-dots span.active {
+  background: white;
+  transform: scale(1.2);
+}
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(0,0,0,0.4);
+  color: white;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.slider-arrow .material-icons {
+  font-size: 20px;
+}
+.image-slider:hover .slider-arrow {
+  opacity: 1;
+}
+.slider-arrow:hover {
+  background: rgba(0,0,0,0.7);
+}
+.slider-arrow.prev {
+  left: 8px;
+}
+.slider-arrow.next {
+  right: 8px;
+}
+</style>

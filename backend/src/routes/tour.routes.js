@@ -54,7 +54,7 @@ router.get('/', async (req, res, next) => {
         where,
         include: {
           destination: true,
-          schedules: { orderBy: { day: 'asc', time: 'asc' } },
+          schedules: { orderBy: [{ day: 'asc' }, { time: 'asc' }] },
           reviews: { select: { rating: true } },
         },
         orderBy,
@@ -94,7 +94,7 @@ router.get('/featured', async (req, res, next) => {
       where: { isActive: true, isFeatured: true },
       include: {
         destination: true,
-        schedules: { take: 3 },
+        schedules: { orderBy: [{ day: 'asc' }, { time: 'asc' }], take: 3 },
       },
       take: 6,
     });
@@ -135,29 +135,47 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+function generateSlug(text) {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[đĐ]/g, 'd')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim() + '-' + Date.now().toString(36);
+}
+
 // POST create tour (admin)
 router.post('/', authenticate, requireAdmin, [
   body('name').trim().isLength({ min: 2 }),
-  body('slug').trim().isLength({ min: 2 }),
   body('price').isFloat({ min: 0 }),
   body('maxPeople').isInt({ min: 1 }),
 ], validate, async (req, res, next) => {
   try {
     const data = req.body;
+    const { images, slug: inputSlug, schedules, ...tourData } = data;
 
     const tour = await prisma.tour.create({
       data: {
-        ...data,
-        schedules: data.schedules ? {
-          create: data.schedules,
+        ...tourData,
+        slug: inputSlug || generateSlug(tourData.name || 'tour'),
+        schedules: schedules ? {
+          create: schedules,
         } : undefined,
-        images: data.images ? {
-          create: data.images,
+        images: images && images.length > 0 ? {
+          create: images.map((img, idx) => ({
+            url: img.url,
+            caption: img.caption || null,
+            isPrimary: idx === 0,
+            sortOrder: idx,
+          })),
         } : undefined,
       },
       include: {
         schedules: true,
-        images: true,
+        images: { orderBy: { sortOrder: 'asc' } },
         destination: true,
       },
     });
@@ -173,23 +191,39 @@ router.put('/:id', authenticate, requireAdmin, async (req, res, next) => {
   try {
     const { id } = req.params;
     const data = req.body;
+    const { images, slug: inputSlug, schedules, ...tourData } = data;
 
-    // Delete existing schedules and recreate
-    if (data.schedules) {
+    // Delete existing schedules and images before recreate
+    if (schedules) {
       await prisma.tourSchedule.deleteMany({ where: { tourId: id } });
+    }
+    if (images) {
+      await prisma.tourImage.deleteMany({ where: { tourId: id } });
+    }
+
+    const updateData = { ...tourData };
+    if (inputSlug) updateData.slug = inputSlug;
+
+    if (schedules) {
+      updateData.schedules = { create: schedules };
+    }
+    if (images && images.length > 0) {
+      updateData.images = {
+        create: images.map((img, idx) => ({
+          url: img.url,
+          caption: img.caption || null,
+          isPrimary: idx === 0,
+          sortOrder: idx,
+        })),
+      };
     }
 
     const tour = await prisma.tour.update({
       where: { id },
-      data: {
-        ...data,
-        schedules: data.schedules ? {
-          create: data.schedules,
-        } : undefined,
-      },
+      data: updateData,
       include: {
         schedules: true,
-        images: true,
+        images: { orderBy: { sortOrder: 'asc' } },
         destination: true,
       },
     });

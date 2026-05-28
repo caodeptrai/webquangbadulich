@@ -76,7 +76,54 @@
           <div class="content-section">
             <h2>Đánh giá ({{ destination.reviewCount }})</h2>
 
-            <div class="write-review" *ngIf="auth.isLoggedIn()">
+            <!-- User's existing review -->
+            <div class="write-review" *ngIf="userReview && !isEditingReview">
+              <h4>Đánh giá của bạn</h4>
+              <div class="user-review-card">
+                <div class="review-avatar">
+                  <span class="material-icons">person</span>
+                </div>
+                <div class="review-content">
+                  <div class="review-header">
+                    <strong>{{ userReview.user?.fullName }}</strong>
+                    <span class="badge badge-success">Đã đánh giá</span>
+                    <div class="review-rating">
+                      <span *ngFor="let s of [1,2,3,4,5]" class="material-icons" [class.filled]="s <= userReview.rating">star</span>
+                    </div>
+                  </div>
+                  <p>{{ userReview.comment }}</p>
+                  <span class="review-date">{{ userReview.createdAt | date:'dd/MM/yyyy' }}</span>
+                  <div class="review-actions">
+                    <button class="btn btn-sm btn-outline" (click)="editReview()">
+                      <span class="material-icons">edit</span> Sửa
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteReview()">
+                      <span class="material-icons">delete</span> Xóa
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Edit existing review -->
+            <div class="write-review" *ngIf="isEditingReview">
+              <h4>Chỉnh sửa đánh giá</h4>
+              <div class="rating-input">
+                <span *ngFor="let s of [1,2,3,4,5]" class="star" [class.filled]="s <= newReview.rating" (click)="newReview.rating = s">
+                  <span class="material-icons">{{ s <= newReview.rating ? 'star' : 'star_border' }}</span>
+                </span>
+              </div>
+              <textarea class="form-control" [(ngModel)]="newReview.comment" placeholder="Chia sẻ trải nghiệm của bạn..." rows="3"></textarea>
+              <div class="review-form-actions">
+                <button class="btn btn-outline" (click)="cancelEdit()">Hủy</button>
+                <button class="btn btn-primary" (click)="saveReview()" [disabled]="!newReview.rating || !newReview.comment.trim()">
+                  Lưu thay đổi
+                </button>
+              </div>
+            </div>
+
+            <!-- Write new review (if no existing review) -->
+            <div class="write-review" *ngIf="auth.isLoggedIn() && !userReview && !isEditingReview">
               <h4>Viết đánh giá của bạn</h4>
               <div class="rating-input">
                 <span *ngFor="let s of [1,2,3,4,5]" class="star" [class.filled]="s <= newReview.rating" (click)="newReview.rating = s">

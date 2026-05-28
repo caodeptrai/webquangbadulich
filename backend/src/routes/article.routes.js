@@ -45,6 +45,7 @@ router.get('/', async (req, res, next) => {
         include: {
           category: true,
           author: { select: { id: true, fullName: true, avatar: true } },
+          images: { orderBy: { sortOrder: 'asc' } },
         },
         orderBy,
         skip,
@@ -75,6 +76,7 @@ router.get('/featured', async (req, res, next) => {
       include: {
         category: true,
         author: { select: { fullName: true } },
+        images: { orderBy: { sortOrder: 'asc' } },
       },
       orderBy: { viewCount: 'desc' },
       take: 6,
@@ -93,6 +95,7 @@ router.get('/recent', async (req, res, next) => {
       include: {
         category: true,
         author: { select: { fullName: true } },
+        images: { orderBy: { sortOrder: 'asc' } },
       },
       orderBy: { publishedAt: 'desc' },
       take: 6,
@@ -115,6 +118,7 @@ router.get('/:id', async (req, res, next) => {
       include: {
         category: true,
         author: { select: { id: true, fullName: true, avatar: true } },
+        images: { orderBy: { sortOrder: 'asc' } },
       },
     });
 
@@ -134,6 +138,19 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+// Helper function to generate slug
+function generateSlug(text) {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[đĐ]/g, 'd')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim() + '-' + Date.now().toString(36);
+}
+
 // POST create article (admin)
 router.post('/', authenticate, requireAdmin, [
   body('title').trim().isLength({ min: 2 }),
@@ -142,15 +159,27 @@ router.post('/', authenticate, requireAdmin, [
 ], validate, async (req, res, next) => {
   try {
     const data = req.body;
+    const { images, slug: inputSlug, ...articleData } = data;
+
     const article = await prisma.article.create({
       data: {
-        ...data,
+        ...articleData,
+        slug: inputSlug || generateSlug(articleData.title || 'article'),
         authorId: req.user.id,
         publishedAt: data.isPublished ? new Date() : null,
+        images: images && images.length > 0 ? {
+          create: images.map((img, index) => ({
+            url: img.url,
+            caption: img.caption || null,
+            isPrimary: index === 0,
+            sortOrder: index,
+          })),
+        } : undefined,
       },
       include: {
         category: true,
         author: { select: { fullName: true } },
+        images: { orderBy: { sortOrder: 'asc' } },
       },
     });
     res.status(201).json(article);
@@ -164,16 +193,39 @@ router.put('/:id', authenticate, requireAdmin, async (req, res, next) => {
   try {
     const { id } = req.params;
     const data = req.body;
+    const { images, slug: inputSlug, ...articleData } = data;
+
+    const updateData = {
+      ...articleData,
+      publishedAt: data.isPublished ? new Date() : undefined,
+    };
+
+    // Only update slug if explicitly provided
+    if (inputSlug) {
+      updateData.slug = inputSlug;
+    }
+
+    // Delete old images and create new ones
+    await prisma.articleImage.deleteMany({ where: { articleId: id } });
+
+    if (images && images.length > 0) {
+      updateData.images = {
+        create: images.map((img, index) => ({
+          url: img.url,
+          caption: img.caption || null,
+          isPrimary: index === 0,
+          sortOrder: index,
+        })),
+      };
+    }
 
     const article = await prisma.article.update({
       where: { id },
-      data: {
-        ...data,
-        publishedAt: data.isPublished ? new Date() : null,
-      },
+      data: updateData,
       include: {
         category: true,
         author: { select: { fullName: true } },
+        images: { orderBy: { sortOrder: 'asc' } },
       },
     });
     res.json(article);

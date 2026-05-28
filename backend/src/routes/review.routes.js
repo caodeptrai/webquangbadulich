@@ -61,7 +61,33 @@ router.get('/tour/:id', async (req, res, next) => {
   }
 });
 
-// POST create review (user)
+// GET all reviews (admin)
+router.get('/', authenticate, async (req, res, next) => {
+  try {
+    const { page = 1, limit = 10 } = req.query;
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+
+    const [reviews, total] = await Promise.all([
+      prisma.review.findMany({
+        include: {
+          user: { select: { id: true, fullName: true, avatar: true } },
+          destination: { select: { id: true, name: true } },
+          tour: { select: { id: true, name: true } },
+        },
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: parseInt(limit),
+      }),
+      prisma.review.count(),
+    ]);
+
+    res.json({ data: reviews, pagination: { page: parseInt(page), limit: parseInt(limit), total, totalPages: Math.ceil(total / parseInt(limit)) } });
+  } catch (error) {
+    next(error);
+  }
+});
+
+    // POST create review (user)
 router.post('/', authenticate, [
   body('rating').isInt({ min: 1, max: 5 }),
   body('comment').trim().isLength({ min: 1 }),
@@ -71,18 +97,6 @@ router.post('/', authenticate, [
 
     if (!destinationId && !tourId) {
       return res.status(400).json({ error: 'Must provide destinationId or tourId' });
-    }
-
-    // Check if user already reviewed
-    const existing = await prisma.review.findFirst({
-      where: {
-        userId: req.user.id,
-        ...(destinationId ? { destinationId } : { tourId }),
-      },
-    });
-
-    if (existing) {
-      return res.status(409).json({ error: 'You have already reviewed this item' });
     }
 
     const review = await prisma.review.create({

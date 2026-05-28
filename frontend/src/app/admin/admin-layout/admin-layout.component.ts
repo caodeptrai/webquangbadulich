@@ -20,18 +20,19 @@ export class AdminLayoutComponent implements OnInit {
   private routeLabels: Record<string, string> = {
     dashboard: 'Dashboard',
     destinations: 'Quản lý điểm đến',
-    'destinations/new': 'Thêm điểm đến',
+    'destinations/create': 'Thêm điểm đến',
     'destinations/edit': 'Chỉnh sửa điểm đến',
     tours: 'Quản lý tour',
-    'tours/new': 'Thêm tour',
+    'tours/create': 'Thêm tour',
     'tours/edit': 'Chỉnh sửa tour',
     articles: 'Quản lý bài viết',
-    'articles/new': 'Thêm bài viết',
+    'articles/create': 'Thêm bài viết',
     'articles/edit': 'Chỉnh sửa bài viết',
     categories: 'Quản lý danh mục',
     users: 'Quản lý người dùng',
     reviews: 'Quản lý đánh giá',
     inquiries: 'Yêu cầu tư vấn',
+    settings: 'Cài đặt',
   };
 
   constructor(public auth: AuthService, private router: Router) {}

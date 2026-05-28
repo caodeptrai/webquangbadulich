@@ -4,7 +4,7 @@
     <div class="admin-toolbar">
       <div class="toolbar-search">
         <span class="material-icons">search</span>
-        <input type="text" class="form-control" [(ngModel)]="search" placeholder="Tìm kiếm người dùng...">
+        <input type="text" class="form-control" [(ngModel)]="search" (ngModelChange)="page = 1; load()" placeholder="Tìm kiếm người dùng...">
       </div>
     </div>
     <div class="loading-spinner" *ngIf="loading"><div class="spinner"></div></div>
@@ -12,7 +12,7 @@
       <table class="data-table">
         <thead><tr><th>Người dùng</th><th>Email</th><th>Vai trò</th><th>Trạng thái</th><th>Ngày tạo</th><th>Hành động</th></tr></thead>
         <tbody>
-          <tr *ngFor="let u of filteredUsers()">
+          <tr *ngFor="let u of data">
             <td>
               <div class="user-cell">
                 <div class="user-avatar-sm"><span class="material-icons">person</span></div>
@@ -34,9 +34,23 @@
         </tbody>
       </table>
     </div>
-    <div class="empty-state" *ngIf="!loading && filteredUsers().length === 0">
+    <div class="empty-state" *ngIf="!loading && data.length === 0">
       <span class="material-icons">people_outline</span>
       <h3>Không có người dùng</h3>
+    </div>
+    <div class="pagination-wrapper" *ngIf="!loading && totalPages > 1">
+      <div class="pagination-info">Hiển thị {{ data.length }} / {{ total }} người dùng</div>
+      <div class="pagination">
+        <button (click)="prev()" [disabled]="page === 1" class="page-nav">
+          <span class="material-icons">chevron_left</span>
+        </button>
+        <button *ngFor="let p of pageNumbers" [class.active]="p === page" [class.ellipsis]="p === '...'" (click)="goTo(p)" [disabled]="p === '...'">
+          {{ p }}
+        </button>
+        <button (click)="next()" [disabled]="page === totalPages" class="page-nav">
+          <span class="material-icons">chevron_right</span>
+        </button>
+      </div>
     </div>
   </div>
 </section>

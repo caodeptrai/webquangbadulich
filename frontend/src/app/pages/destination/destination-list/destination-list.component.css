@@ -117,9 +117,9 @@
 }
 
 .card-footer {
-  display: flex;
+  /* display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; */
   border-top: 1px solid #f1f5f9;
   padding-top: 0.75rem;
 }

@@ -11,22 +11,61 @@ import { ApiService } from '../../core/services/api.service';
   styleUrls: ['./reviews.component.css']
 })
 export class ReviewsComponent implements OnInit {
-  reviews: any[] = [];
+  data: any[] = [];
   loading = true;
+  page = 1;
+  limit = 5;
+  total = 0;
+  totalPages = 0;
+  pageNumbers: (number | string)[] = [];
+
   constructor(private api: ApiService) {}
-  ngOnInit() {
-    this.api.getDestinations({ limit: 30 }).subscribe((res: any) => {
-      const allReviews: any[] = [];
-      res.data.forEach((d: any) => {
-        if (d.reviews) allReviews.push(...d.reviews);
-      });
-      this.reviews = allReviews.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  ngOnInit() { this.load(); }
+
+  load() {
+    this.loading = true;
+    this.api.getReviews({ page: this.page, limit: this.limit }).subscribe((res: any) => {
+      this.data = res.data;
+      this.total = res.pagination.total;
+      this.totalPages = res.pagination.totalPages;
+      this.buildPageNumbers();
       this.loading = false;
     }, () => { this.loading = false; });
   }
-  delete(id: string) {
-    if (confirm('Xác nhận xóa đánh giá?')) this.api.deleteReview(id).subscribe(() => this.ngOnInit());
+
+  buildPageNumbers() {
+    const pages: (number | string)[] = [];
+    const total = this.totalPages;
+    const current = this.page;
+
+    if (total <= 7) {
+      for (let i = 1; i <= total; i++) pages.push(i);
+    } else {
+      pages.push(1);
+      if (current > 3) pages.push('...');
+      const start = Math.max(2, current - 1);
+      const end = Math.min(total - 1, current + 1);
+      for (let i = start; i <= end; i++) pages.push(i);
+      if (current < total - 2) pages.push('...');
+      pages.push(total);
+    }
+    this.pageNumbers = pages;
   }
+
+  goTo(page: number | string) {
+    if (page === '...' || page === this.page) return;
+    this.page = +page;
+    this.load();
+  }
+
+  prev() { if (this.page > 1) { this.page--; this.load(); } }
+  next() { if (this.page < this.totalPages) { this.page++; this.load(); } }
+
+  delete(id: string) {
+    if (confirm('Xác nhận xóa đánh giá?')) this.api.deleteReview(id).subscribe(() => this.load());
+  }
+
   getStars(rating: number): string[] {
     return Array(5).fill(0).map((_, i) => i < rating ? '★' : '☆');
   }

@@ -4,7 +4,7 @@
     <div class="admin-toolbar">
       <div class="toolbar-search">
         <span class="material-icons">search</span>
-        <input type="text" class="form-control" [(ngModel)]="search" (ngModelChange)="load()" placeholder="Tìm kiếm bài viết...">
+        <input type="text" class="form-control" [(ngModel)]="search" (ngModelChange)="page = 1; load()" placeholder="Tìm kiếm bài viết...">
       </div>
       <a routerLink="/admin/articles/create" class="btn btn-primary"><span class="material-icons">add</span> Thêm mới</a>
     </div>
@@ -32,6 +32,20 @@
     <div class="empty-state" *ngIf="!loading && data.length === 0">
       <span class="material-icons">article</span>
       <h3>Không có bài viết</h3>
+    </div>
+    <div class="pagination-wrapper" *ngIf="!loading && totalPages > 1">
+      <div class="pagination-info">Hiển thị {{ data.length }} / {{ total }} bài viết</div>
+      <div class="pagination">
+        <button (click)="prev()" [disabled]="page === 1" class="page-nav">
+          <span class="material-icons">chevron_left</span>
+        </button>
+        <button *ngFor="let p of pageNumbers" [class.active]="p === page" [class.ellipsis]="p === '...'" (click)="goTo(p)" [disabled]="p === '...'">
+          {{ p }}
+        </button>
+        <button (click)="next()" [disabled]="page === totalPages" class="page-nav">
+          <span class="material-icons">chevron_right</span>
+        </button>
+      </div>
     </div>
   </div>
 </section>

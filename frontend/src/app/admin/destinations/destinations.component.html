@@ -4,7 +4,7 @@
     <div class="admin-toolbar">
       <div class="toolbar-search">
         <span class="material-icons">search</span>
-        <input type="text" class="form-control" [(ngModel)]="search" (ngModelChange)="load()" placeholder="Tìm kiếm điểm đến...">
+        <input type="text" class="form-control" [(ngModel)]="search" (ngModelChange)="page = 1; load()" placeholder="Tìm kiếm điểm đến...">
       </div>
       <a routerLink="/admin/destinations/create" class="btn btn-primary"><span class="material-icons">add</span> Thêm mới</a>
     </div>
@@ -38,8 +38,19 @@
       <span class="material-icons">search_off</span>
       <h3>Không có dữ liệu</h3>
     </div>
-    <div class="pagination" *ngIf="!loading && pagination.totalPages > 1">
-      <button *ngFor="let p of pageNumbers" [class.active]="p === pagination.page" (click)="goToPage(p)">{{ p }}</button>
+    <div class="pagination-wrapper" *ngIf="!loading && totalPages > 1">
+      <div class="pagination-info">Hiển thị {{ data.length }} / {{ total }} địa điểm</div>
+      <div class="pagination">
+        <button (click)="prev()" [disabled]="page === 1" class="page-nav">
+          <span class="material-icons">chevron_left</span>
+        </button>
+        <button *ngFor="let p of pageNumbers" [class.active]="p === page" [class.ellipsis]="p === '...'" (click)="goTo(p)" [disabled]="p === '...'">
+          {{ p }}
+        </button>
+        <button (click)="next()" [disabled]="page === totalPages" class="page-nav">
+          <span class="material-icons">chevron_right</span>
+        </button>
+      </div>
     </div>
   </div>
 </section>

@@ -56,7 +56,7 @@
 
         <div *ngIf="results?.recommendations?.length" class="results-list">
           <h3>Kết quả gợi ý ({{ results.recommendations.length }} địa điểm)</h3>
-          <p class="algo-note">Algorithm: {{ results.algorithm }}</p>
+          <!-- <p class="algo-note">Algorithm: {{ results.algorithm }}</p> -->
           <div *ngFor="let r of results.recommendations" class="result-card card">
             <img [src]="r.images?.[0]?.url || 'https://picsum.photos/seed/' + r.slug + '/200/150'" [alt]="r.name">
             <div class="result-info">

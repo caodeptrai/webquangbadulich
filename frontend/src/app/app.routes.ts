@@ -76,6 +76,7 @@ export const routes: Routes = [
       { path: 'users', loadComponent: () => import('./admin/users/users.component').then(m => m.UsersComponent) },
       { path: 'reviews', loadComponent: () => import('./admin/reviews/reviews.component').then(m => m.ReviewsComponent) },
       { path: 'inquiries', loadComponent: () => import('./admin/inquiries/inquiries.component').then(m => m.AdminInquiriesComponent) },
+      { path: 'settings', loadComponent: () => import('./admin/settings/settings.component').then(m => m.SettingsComponent) },
     ]
   },
   { path: '**', redirectTo: '' }

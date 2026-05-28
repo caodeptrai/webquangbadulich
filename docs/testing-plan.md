@@ -1,156 +1,156 @@
-# Testing Plan - Du Lịch Quảng Bá
+# Kế Hoạch Kiểm Thử - Du Lịch Quảng Bá
 
-## 1. Test Scope
+## 1. Phạm Vi Kiểm Thử
 
-### In Scope
-- All user-facing features (public pages, user account)
-- Admin dashboard and management features
+### Trong Phạm Vi
+- Tất cả tính năng người dùng (trang công khai, tài khoản user)
+- Trang quản trị và tính năng quản lý
 - API endpoints (backend)
-- Authentication and authorization
-- AI features (chatbot, recommendations)
-- Responsive UI on multiple devices
+- Xác thực và ủy quyền
+- Tính năng AI (chatbot, gợi ý)
+- Giao diện responsive trên nhiều thiết bị
 
-### Out of Scope
-- Performance testing under load
-- Security penetration testing
-- Third-party service integration (payment gateway, email)
+### Ngoài Phạm Vi
+- Kiểm thử hiệu năng dưới tải
+- Kiểm thử bảo mật xâm nhập
+- Tích hợp dịch vụ bên thứ ba (cổng thanh toán, email)
 
-## 2. Test Types
+## 2. Các Loại Kiểm Thử
 
-### 2.1. Unit Testing
-- Backend service methods (scoring algorithm, validation)
-- Frontend utility functions
-- Component logic (Angular services)
+### 2.1. Kiểm Thử Đơn Vị
+- Phương thức service backend (thuật toán chấm điểm, validation)
+- Hàm tiện ích frontend
+- Logic component (Angular services)
 
-### 2.2. Integration Testing
-- API endpoints (CRUD operations)
-- Database operations
-- Authentication flow
+### 2.2. Kiểm Thử Tích Hợp
+- API endpoints (thao tác CRUD)
+- Thao tác database
+- Luồng xác thực
 
-### 2.3. Manual Testing
-- All user-facing features
-- UI/UX validation
-- Cross-browser testing
-- Responsive design
+### 2.3. Kiểm Thử Thủ Công
+- Tất cả tính năng người dùng
+- Validation UI/UX
+- Kiểm thử đa trình duyệt
+- Thiết kế responsive
 
-## 3. Test Cases
+## 3. Các Ca Kiểm Thử
 
-### 3.1 Authentication
-| ID | Test Case | Steps | Expected Result | Status |
-|----|-----------|-------|----------------|--------|
-| AUTH-01 | Register with valid data | Fill form, submit | Success, redirect to home | |
-| AUTH-02 | Register with duplicate email | Use existing email | Error message | |
-| AUTH-03 | Register with invalid email | Enter invalid format | Validation error | |
-| AUTH-04 | Login with correct credentials | Enter valid email/password | Login success, token saved | |
-| AUTH-05 | Login with wrong password | Enter wrong password | Error message | |
-| AUTH-06 | Login with non-existent email | Enter unregistered email | Error message | |
-| AUTH-07 | Logout | Click logout | Clear session, redirect | |
-| AUTH-08 | Access admin without login | Navigate to admin | Redirect to login | |
-| AUTH-09 | Access admin with user account | Login as user, go admin | Access denied | |
-| AUTH-10 | Change password | Enter correct old, new password | Success message | |
+### 3.1 Xác Thực
+| ID | Ca Kiểm Thử | Các Bước | Kết Quả Mong Đợi | Trạng Thái |
+|----|-------------|----------|------------------|------------|
+| AUTH-01 | Đăng ký với dữ liệu hợp lệ | Điền form, gửi | Thành công, chuyển hướng về trang chủ | |
+| AUTH-02 | Đăng ký với email trùng lặp | Sử dụng email đã tồn tại | Thông báo lỗi | |
+| AUTH-03 | Đăng ký với email không hợp lệ | Nhập định dạng sai | Lỗi validation | |
+| AUTH-04 | Đăng nhập với thông tin chính xác | Nhập email/mật khẩu hợp lệ | Đăng nhập thành công, token được lưu | |
+| AUTH-05 | Đăng nhập với mật khẩu sai | Nhập mật khẩu sai | Thông báo lỗi | |
+| AUTH-06 | Đăng nhập với email không tồn tại | Nhập email chưa đăng ký | Thông báo lỗi | |
+| AUTH-07 | Đăng xuất | Nhấn đăng xuất | Xóa phiên, chuyển hướng | |
+| AUTH-08 | Truy cập admin khi chưa đăng nhập | Truy cập trang admin | Chuyển hướng đến đăng nhập | |
+| AUTH-09 | Truy cập admin với tài khoản user | Đăng nhập user, vào trang admin | Từ chối truy cập | |
+| AUTH-10 | Đổi mật khẩu | Nhập mật khẩu cũ đúng, mật khẩu mới | Thông báo thành công | |
 
-### 3.2 Destinations
-| ID | Test Case | Steps | Expected Result | Status |
-|----|-----------|-------|----------------|--------|
-| DEST-01 | View destination list | Navigate to destinations page | Display paginated list | |
-| DEST-02 | Search destinations | Enter keyword in search | Filtered results | |
-| DEST-03 | Filter by category | Select category | Filtered by category | |
-| DEST-04 | Sort destinations | Select sort option | Sorted results | |
-| DEST-05 | View destination detail | Click destination card | Show detail page | |
-| DEST-06 | View destination reviews | Scroll to reviews section | Show reviews | |
-| DEST-07 | Admin create destination | Fill form, submit | New destination created | |
-| DEST-08 | Admin edit destination | Edit fields, save | Destination updated | |
-| DEST-09 | Admin delete destination | Click delete, confirm | Destination removed | |
+### 3.2 Điểm Đến
+| ID | Ca Kiểm Thử | Các Bước | Kết Quả Mong Đợi | Trạng Thái |
+|----|-------------|----------|------------------|------------|
+| DEST-01 | Xem danh sách điểm đến | Truy cập trang điểm đến | Hiển thị danh sách phân trang | |
+| DEST-02 | Tìm kiếm điểm đến | Nhập từ khóa tìm kiếm | Kết quả lọc | |
+| DEST-03 | Lọc theo danh mục | Chọn danh mục | Kết quả lọc theo danh mục | |
+| DEST-04 | Sắp xếp điểm đến | Chọn tùy chọn sắp xếp | Kết quả đã sắp xếp | |
+| DEST-05 | Xem chi tiết điểm đến | Nhấn vào card điểm đến | Hiển thị trang chi tiết | |
+| DEST-06 | Xem đánh giá điểm đến | Cuộn đến phần đánh giá | Hiển thị đánh giá | |
+| DEST-07 | Admin tạo điểm đến | Điền form, gửi | Điểm đến mới được tạo | |
+| DEST-08 | Admin chỉnh sửa điểm đến | Chỉnh sửa trường, lưu | Điểm đến được cập nhật | |
+| DEST-09 | Admin xóa điểm đến | Nhấn xóa, xác nhận | Điểm đến được xóa | |
 
 ### 3.3 Tours
-| ID | Test Case | Steps | Expected Result | Status |
-|----|-----------|-------|----------------|--------|
-| TOUR-01 | View tour list | Navigate to tours page | Display paginated list | |
-| TOUR-02 | View tour detail | Click tour card | Show detail with schedule | |
-| TOUR-03 | Filter tours by price | Set price range | Filtered results | |
-| TOUR-04 | Request tour consultation | Fill form, submit | Inquiry submitted | |
+| ID | Ca Kiểm Thử | Các Bước | Kết Quả Mong Đợi | Trạng Thái |
+|----|-------------|----------|------------------|------------|
+| TOUR-01 | Xem danh sách tour | Truy cập trang tours | Hiển thị danh sách phân trang | |
+| TOUR-02 | Xem chi tiết tour | Nhấn vào card tour | Hiển thị chi tiết với lịch trình | |
+| TOUR-03 | Lọc tours theo giá | Đặt khoảng giá | Kết quả lọc | |
+| TOUR-04 | Yêu cầu tư vấn tour | Điền form, gửi | Yêu cầu được gửi | |
 
-### 3.4 Articles
-| ID | Test Case | Steps | Expected Result | Status |
-|----|-----------|-------|----------------|--------|
-| ART-01 | View article list | Navigate to articles page | Display paginated list | |
-| ART-02 | View article detail | Click article | Show full content | |
-| ART-03 | Filter by category | Select category | Filtered results | |
-| ART-04 | Admin create article | Fill form, submit | Article published | |
+### 3.4 Bài Viết
+| ID | Ca Kiểm Thử | Các Bước | Kết Quả Mong Đợi | Trạng Thái |
+|----|-------------|----------|------------------|------------|
+| ART-01 | Xem danh sách bài viết | Truy cập trang bài viết | Hiển thị danh sách phân trang | |
+| ART-02 | Xem chi tiết bài viết | Nhấn vào bài viết | Hiển thị nội dung đầy đủ | |
+| ART-03 | Lọc theo danh mục | Chọn danh mục | Kết quả lọc | |
+| ART-04 | Admin tạo bài viết | Điền form, gửi | Bài viết được xuất bản | |
 
-### 3.5 Reviews
-| ID | Test Case | Steps | Expected Result | Status |
-|----|-----------|-------|----------------|--------|
-| REV-01 | Submit review (logged in) | Login, rate, comment, submit | Review created | |
-| REV-02 | Submit review (not logged in) | Try to submit | Redirect to login | |
-| REV-03 | Submit duplicate review | Review same item again | Error message | |
-| REV-04 | Delete own review | Click delete | Review removed | |
-| REV-05 | Admin delete any review | Click delete | Review removed | |
+### 3.5 Đánh Giá
+| ID | Ca Kiểm Thử | Các Bước | Kết Quả Mong Đợi | Trạng Thái |
+|----|-------------|----------|------------------|------------|
+| REV-01 | Gửi đánh giá (đã đăng nhập) | Đăng nhập, chấm điểm, bình luận, gửi | Đánh giá được tạo | |
+| REV-02 | Gửi đánh giá (chưa đăng nhập) | Thử gửi | Chuyển hướng đến đăng nhập | |
+| REV-03 | Gửi đánh giá trùng lặp | Đánh giá cùng mục lại | Thông báo lỗi | |
+| REV-04 | Xóa đánh giá của mình | Nhấn xóa | Đánh giá được xóa | |
+| REV-05 | Admin xóa bất kỳ đánh giá nào | Nhấn xóa | Đánh giá được xóa | |
 
-### 3.6 Favorites
-| ID | Test Case | Steps | Expected Result | Status |
-|----|-----------|-------|----------------|--------|
-| FAV-01 | Add to favorites | Click heart icon | Added to list | |
-| FAV-02 | Remove from favorites | Click again | Removed from list | |
-| FAV-03 | View favorites list | Go to profile > favorites | Show all favorites | |
-| FAV-04 | Add without login | Click heart | Redirect to login | |
+### 3.6 Yêu Thích
+| ID | Ca Kiểm Thử | Các Bước | Kết Quả Mong Đợi | Trạng Thái |
+|----|-------------|----------|------------------|------------|
+| FAV-01 | Thêm vào yêu thích | Nhấn biểu tượng trái tim | Được thêm vào danh sách | |
+| FAV-02 | Xóa khỏi yêu thích | Nhấn lại | Được xóa khỏi danh sách | |
+| FAV-03 | Xem danh sách yêu thích | Vào hồ sơ > yêu thích | Hiển thị tất cả yêu thích | |
+| FAV-04 | Thêm khi chưa đăng nhập | Nhấn trái tim | Chuyển hướng đến đăng nhập | |
 
-### 3.7 Inquiries
-| ID | Test Case | Steps | Expected Result | Status |
-|----|-----------|-------|----------------|--------|
-| INQ-01 | Submit contact form | Fill form, submit | Success message | |
-| INQ-02 | Submit with invalid data | Leave required fields empty | Validation errors | |
-| INQ-03 | Admin view inquiries | Go to admin > inquiries | List all inquiries | |
-| INQ-04 | Admin reply inquiry | Add reply, update status | Status changed | |
-| INQ-05 | User view own inquiries | Go to profile > inquiries | Show user inquiries | |
+### 3.7 Liên Hệ
+| ID | Ca Kiểm Thử | Các Bước | Kết Quả Mong Đợi | Trạng Thái |
+|----|-------------|----------|------------------|------------|
+| INQ-01 | Gửi biểu mẫu liên hệ | Điền form, gửi | Thông báo thành công | |
+| INQ-02 | Gửi với dữ liệu không hợp lệ | Để trống các trường bắt buộc | Lỗi validation | |
+| INQ-03 | Admin xem liên hệ | Vào admin > liên hệ | Liệt kê tất cả liên hệ | |
+| INQ-04 | Admin trả lời liên hệ | Thêm trả lời, cập nhật trạng thái | Trạng thái thay đổi | |
+| INQ-05 | User xem liên hệ của mình | Vào hồ sơ > liên hệ | Hiển thị liên hệ của user | |
 
 ### 3.8 Chatbot
-| ID | Test Case | Steps | Expected Result | Status |
-|----|-----------|-------|----------------|--------|
-| CHAT-01 | Send greeting | Type "xin chào" | Bot responds | |
-| CHAT-02 | Ask about beach destinations | Type "địa điểm biển" | Returns beach destinations | |
-| CHAT-03 | Ask about budget | Type "chi phí đi Sapa" | Returns cost info | |
-| CHAT-04 | Ask unrelated question | Type random text | Fallback response | |
-| CHAT-05 | Chat history saved | Login, chat, logout, login | History restored | |
+| ID | Ca Kiểm Thử | Các Bước | Kết Quả Mong Đợi | Trạng Thái |
+|----|-------------|----------|------------------|------------|
+| CHAT-01 | Gửi lời chào | Gõ "xin chào" | Bot trả lời | |
+| CHAT-02 | Hỏi về địa điểm biển | Gõ "địa điểm biển" | Trả về điểm đến biển | |
+| CHAT-03 | Hỏi về chi phí | Gõ "chi phí đi Sapa" | Trả về thông tin giá | |
+| CHAT-04 | Hỏi câu hỏi không liên quan | Gõ text ngẫu nhiên | Phản hồi mặc định | |
+| CHAT-05 | Lịch sử chat được lưu | Đăng nhập, chat, đăng xuất, đăng nhập | Lịch sử được khôi phục | |
 
-### 3.9 Recommendations
-| ID | Test Case | Steps | Expected Result | Status |
-|----|-----------|-------|----------------|--------|
-| REC-01 | Get recommendations | Select preferences, submit | Returns scored destinations | |
-| REC-02 | Empty preferences | Submit without selecting | Returns popular destinations | |
-| REC-03 | Filter by region | Select NORTH, submit | Returns northern destinations | |
+### 3.9 Gợi Ý
+| ID | Ca Kiểm Thử | Các Bước | Kết Quả Mong Đợi | Trạng Thái |
+|----|-------------|----------|------------------|------------|
+| REC-01 | Lấy gợi ý | Chọn sở thích, gửi | Trả về điểm đến có điểm số | |
+| REC-02 | Không có sở thích | Gửi mà không chọn | Trả về điểm đến phổ biến | |
+| REC-03 | Lọc theo khu vực | Chọn BẮC, gửi | Trả về điểm đến phía Bắc | |
 
-### 3.10 Admin Dashboard
-| ID | Test Case | Steps | Expected Result | Status |
-|----|-----------|-------|----------------|--------|
-| ADMIN-01 | View dashboard stats | Login as admin | Show all statistics | |
-| ADMIN-02 | Manage users | View user list, toggle active | Status updated | |
-| ADMIN-03 | Manage categories | Add/edit/delete category | Changes reflected | |
+### 3.10 Trang Quản Trị
+| ID | Ca Kiểm Thử | Các Bước | Kết Quả Mong Đợi | Trạng Thái |
+|----|-------------|----------|------------------|------------|
+| ADMIN-01 | Xem thống kê trang quản trị | Đăng nhập admin | Hiển thị tất cả thống kê | |
+| ADMIN-02 | Quản lý người dùng | Xem danh sách user, bật/tắt hoạt động | Trạng thái được cập nhật | |
+| ADMIN-03 | Quản lý danh mục | Thêm/sửa/xóa danh mục | Thay đổi được phản ánh | |
 
-### 3.11 Responsive UI
-| ID | Test Case | Steps | Expected Result | Status |
-|----|-----------|-------|----------------|--------|
-| RESP-01 | Desktop view | Open on desktop (1920px) | Full layout, 3-column grid | |
-| RESP-02 | Tablet view | Open on tablet (768px) | 2-column grid, adjusted nav | |
-| RESP-03 | Mobile view | Open on mobile (375px) | Single column, hamburger menu | |
+### 3.11 Giao Diện Responsive
+| ID | Ca Kiểm Thử | Các Bước | Kết Quả Mong Đợi | Trạng Thái |
+|----|-------------|----------|------------------|------------|
+| RESP-01 | Xem trên desktop | Mở trên desktop (1920px) | Bố cục đầy đủ, lưới 3 cột | |
+| RESP-02 | Xem trên tablet | Mở trên tablet (768px) | Lưới 2 cột, nav điều chỉnh | |
+| RESP-03 | Xem trên mobile | Mở trên mobile (375px) | Một cột, menu hamburger | |
 
-## 4. Test Execution
+## 4. Thực Thi Kiểm Thử
 
-### Environment Setup
+### Thiết Lập Môi Trường
 - Frontend: http://localhost:4200
 - Backend: http://localhost:3000
-- Database: MySQL on localhost:3306
+- Database: MySQL trên localhost:3306
 
-### Test Accounts
-- Admin: admin@webquangbadulich.com / admin123
-- User: user@webquangbadulich.com / user123
+### Tài Khoản Kiểm Thử
+- Quản trị: admin@webquangbadulich.com / admin123
+- Người dùng: user@webquangbadulich.com / user123
 
-## 5. Bug Reporting
+## 5. Báo Cáo Lỗi
 
-All bugs found will be documented in `test-results.md` with:
-- Bug ID
-- Description
-- Steps to reproduce
-- Severity (Critical/Major/Minor)
-- Status (Open/Fixed/Closed)
-- Fix notes
+Tất cả lỗi được tìm thấy sẽ được ghi chép trong `test-results.md` với:
+- ID Lỗi
+- Mô Tả
+- Các Bước Tái Tạo
+- Mức Độ Nghiêm Trọng (Nghiêm trọng nhất/Nghiêm trọng/Nhỏ)
+- Trạng Thái (Đang mở/Đã sửa/Đã đóng)
+- Ghi chú sửa lỗi
