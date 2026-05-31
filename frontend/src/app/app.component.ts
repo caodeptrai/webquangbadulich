@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { ChatbotWidgetComponent } from './shared/components/chatbot-widget/chatbot-widget.component';
+import { LanguageService } from './core/i18n/language.service';
 
 @Component({
   selector: 'app-root',
@@ -13,13 +14,17 @@ import { ChatbotWidgetComponent } from './shared/components/chatbot-widget/chatb
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   isAdminRoute = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private languageService: LanguageService) {
     this.router.events.subscribe(() => {
       this.isAdminRoute = this.router.url.startsWith('/admin');
     });
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.languageService.startDomTranslation());
   }
 
   ngOnInit() {

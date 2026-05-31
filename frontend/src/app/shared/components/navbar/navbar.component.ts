@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { LanguageCode, LanguageService } from '../../../core/i18n/language.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,7 +16,11 @@ export class NavbarComponent implements OnInit {
   mobileMenuOpen = false;
   dropdownOpen = false;
 
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService, public languageService: LanguageService) {}
+
+  changeLanguage(language: Event) {
+    this.languageService.setLanguage((language.target as HTMLSelectElement).value as LanguageCode);
+  }
 
   ngOnInit() {
     window.addEventListener('scroll', () => {

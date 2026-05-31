@@ -102,3 +102,38 @@
   .user-name { display: none; }
   .mobile-menu-btn { display: block; }
 }
+
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 0.25rem 0.5rem;
+  background: var(--white);
+  color: var(--gray-dark);
+}
+.language-switcher .material-icons { font-size: 1.125rem; color: var(--primary); }
+.language-switcher select {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  outline: none;
+}
+.mobile-language {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+}
+.mobile-language label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--gray-dark);
+}
+
+@media (max-width: 1024px) {
+  .navbar-actions .language-switcher { display: inline-flex; }
+}

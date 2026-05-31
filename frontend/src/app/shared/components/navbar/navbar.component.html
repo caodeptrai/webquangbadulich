@@ -15,6 +15,13 @@
     </ul>
 
     <div class="navbar-actions">
+
+      <label class="language-switcher" aria-label="Chọn ngôn ngữ">
+        <span class="material-icons">language</span>
+        <select [value]="languageService.currentLanguage()" (change)="changeLanguage($event)">
+          <option *ngFor="let language of languageService.languages" [value]="language.code">{{ language.shortLabel }}</option>
+        </select>
+      </label>
       <ng-container *ngIf="auth.isLoggedIn(); else loginBtn">
         <div class="user-dropdown">
           <button class="user-btn" (click)="dropdownOpen = !dropdownOpen">
@@ -53,6 +60,13 @@
       <li><a routerLink="/recommendations" (click)="mobileMenuOpen = false">Gợi ý AI</a></li>
       <li><a routerLink="/contact" (click)="mobileMenuOpen = false">Liên hệ</a></li>
     </ul>
+
+    <div class="mobile-language">
+      <label>Ngôn ngữ</label>
+      <select class="form-control" [value]="languageService.currentLanguage()" (change)="changeLanguage($event); mobileMenuOpen = false">
+        <option *ngFor="let language of languageService.languages" [value]="language.code">{{ language.label }}</option>
+      </select>
+    </div>
     <div class="mobile-auth" *ngIf="!auth.isLoggedIn()">
       <a routerLink="/auth/login" class="btn btn-outline" (click)="mobileMenuOpen = false">Đăng nhập</a>
       <a routerLink="/auth/register" class="btn btn-primary" (click)="mobileMenuOpen = false">Đăng ký</a>
