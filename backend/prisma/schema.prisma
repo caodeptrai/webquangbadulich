@@ -36,6 +36,7 @@ model User {
   chatbotHistories  ChatbotHistory[]
   recommendationLogs RecommendationLog[]
   articles         Article[]
+  bookings         Booking[]
 
   @@map("users")
 }
@@ -167,6 +168,7 @@ model Tour {
   schedules      TourSchedule[]
   reviews        Review[]
   inquiries      Inquiry[]
+  bookings      Booking[]
 
   @@map("tours")
 }
@@ -298,6 +300,34 @@ model Inquiry {
   updatedAt   DateTime  @updatedAt
 
   @@map("inquiries")
+}
+
+
+// ==================== BOOKING ====================
+
+model Booking {
+  id           String   @id @default(uuid())
+  bookingCode  String   @unique
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  tourId       String
+  tour         Tour     @relation(fields: [tourId], references: [id])
+  startDate    DateTime
+  peopleCount  Int
+  totalAmount  Float
+  contactName  String
+  contactEmail String
+  contactPhone String
+  note         String?  @db.Text
+  status       String   @default("pending") // pending, confirmed, cancelled
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
+  @@index([tourId])
+  @@index([status])
+  @@index([startDate])
+  @@map("bookings")
 }
 
 // ==================== CHATBOT ====================

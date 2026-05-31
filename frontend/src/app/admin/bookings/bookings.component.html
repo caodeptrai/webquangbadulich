@@ -1,0 +1,40 @@
+<div class="admin-page-header">
+  <div><h1>Quản lý đặt tour</h1><p>Theo dõi và cập nhật trạng thái booking</p></div>
+  <div class="toolbar">
+    <select class="form-control" [(ngModel)]="status" (ngModelChange)="page = 1; load()">
+      <option value="">Tất cả trạng thái</option>
+      <option value="pending">Chờ xác nhận</option>
+      <option value="confirmed">Đã xác nhận</option>
+      <option value="cancelled">Đã hủy</option>
+    </select>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="loading-spinner" *ngIf="loading"><div class="spinner"></div></div>
+    <table class="data-table" *ngIf="!loading">
+      <thead><tr><th>Mã</th><th>Khách hàng</th><th>Tour</th><th>Ngày đi</th><th>Số người</th><th>Tổng tiền</th><th>Trạng thái</th><th>Cập nhật</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let b of data">
+          <td><strong>{{ b.bookingCode }}</strong><br><small>{{ b.createdAt | date:'dd/MM/yyyy HH:mm' }}</small></td>
+          <td>{{ b.contactName }}<br><small>{{ b.contactPhone }} · {{ b.contactEmail }}</small></td>
+          <td>{{ b.tour?.name }}</td>
+          <td>{{ b.startDate | date:'dd/MM/yyyy' }}</td>
+          <td>{{ b.peopleCount }}</td>
+          <td>{{ b.totalAmount | number:'1.0-0' }}đ</td>
+          <td><span class="badge" [class.badge-warning]="b.status==='pending'" [class.badge-success]="b.status==='confirmed'" [class.badge-danger]="b.status==='cancelled'">{{ statusLabel(b.status) }}</span></td>
+          <td>
+            <select class="form-control form-control-sm" [ngModel]="b.status" (ngModelChange)="updateStatus(b, $event)">
+              <option value="pending">Chờ xác nhận</option>
+              <option value="confirmed">Đã xác nhận</option>
+              <option value="cancelled">Đã hủy</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="empty-state" *ngIf="!loading && data.length === 0"><span class="material-icons">event_busy</span><h3>Chưa có booking</h3></div>
+    <div class="pagination-info" *ngIf="!loading && data.length">Hiển thị {{ data.length }} / {{ total }} booking</div>
+  </div>
+</div>
