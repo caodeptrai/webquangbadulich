@@ -8,16 +8,17 @@
             <span class="material-icons">place</span>
             <h3>Điểm đến</h3>
           </div>
+          <p *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</p>
           <div *ngFor="let c of destCategories" class="cat-item">
             <div class="cat-info">
               <span class="cat-name">{{ c.name }}</span>
               <span class="cat-count">{{ c._count?.destinations }} mục</span>
             </div>
-            <button class="btn btn-sm btn-outline btn-outline-danger" (click)="delete('destinations', c.id)"><span class="material-icons">delete</span></button>
+            <button class="btn btn-sm btn-outline btn-outline-danger" [disabled]="deletingId === c.id" (click)="delete('destinations', c.id)"><span class="material-icons">delete</span></button>
           </div>
           <div class="add-form">
             <input type="text" class="form-control" [(ngModel)]="newDestCat" placeholder="Tên danh mục mới">
-            <button class="btn btn-primary btn-sm" (click)="add('destinations')"><span class="material-icons">add</span> Thêm</button>
+            <button class="btn btn-primary btn-sm" [disabled]="isSaving" (click)="add('destinations')"><span class="material-icons">add</span> Thêm</button>
           </div>
         </div>
       </div>
@@ -32,11 +33,11 @@
               <span class="cat-name">{{ c.name }}</span>
               <span class="cat-count">{{ c._count?.articles }} mục</span>
             </div>
-            <button class="btn btn-sm btn-outline btn-outline-danger" (click)="delete('articles', c.id)"><span class="material-icons">delete</span></button>
+            <button class="btn btn-sm btn-outline btn-outline-danger" [disabled]="deletingId === c.id" (click)="delete('articles', c.id)"><span class="material-icons">delete</span></button>
           </div>
           <div class="add-form">
             <input type="text" class="form-control" [(ngModel)]="newArtCat" placeholder="Tên danh mục mới">
-            <button class="btn btn-primary btn-sm" (click)="add('articles')"><span class="material-icons">add</span> Thêm</button>
+            <button class="btn btn-primary btn-sm" [disabled]="isSaving" (click)="add('articles')"><span class="material-icons">add</span> Thêm</button>
           </div>
         </div>
       </div>
