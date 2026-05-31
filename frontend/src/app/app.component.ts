@@ -5,11 +5,12 @@ import { filter } from 'rxjs/operators';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { ChatbotWidgetComponent } from './shared/components/chatbot-widget/chatbot-widget.component';
+import { ConfirmDialogComponent } from './shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, NavbarComponent, FooterComponent, ChatbotWidgetComponent],
+  imports: [CommonModule, RouterOutlet, NavbarComponent, FooterComponent, ChatbotWidgetComponent, ConfirmDialogComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })

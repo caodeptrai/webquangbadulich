@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/services/api.service';
+import { ConfirmDialogService } from '../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-admin-tours',
@@ -21,7 +22,7 @@ export class AdminToursComponent implements OnInit {
   totalPages = 0;
   pageNumbers: (number | string)[] = [];
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private confirmDialog: ConfirmDialogService) {}
 
   ngOnInit() { this.load(); }
 
@@ -67,5 +68,12 @@ export class AdminToursComponent implements OnInit {
   prev() { if (this.page > 1) { this.page--; this.load(); } }
   next() { if (this.page < this.totalPages) { this.page++; this.load(); } }
 
-  delete(id: string) { if (confirm('Xác nhận xóa?')) this.api.deleteTour(id).subscribe(() => this.load()); }
+  async delete(id: string) {
+    const confirmed = await this.confirmDialog.confirm({
+      title: 'Xoá tour?',
+      message: 'Tour này sẽ bị xoá vĩnh viễn và không thể khôi phục.',
+      confirmText: 'Xoá tour',
+    });
+    if (confirmed) this.api.deleteTour(id).subscribe(() => this.load());
+  }
 }

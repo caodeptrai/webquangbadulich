@@ -1,0 +1,113 @@
+.confirm-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  background: rgba(15, 23, 42, 0.58);
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.18s ease-out;
+}
+
+.confirm-modal {
+  position: relative;
+  width: min(100%, 440px);
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 24px;
+  background: var(--white);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.28);
+  text-align: center;
+  animation: popIn 0.22s ease-out;
+}
+
+.confirm-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(108, 117, 125, 0.12);
+  color: var(--gray-dark);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.confirm-close:hover {
+  background: rgba(220, 53, 69, 0.12);
+  color: var(--danger);
+}
+
+.confirm-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  margin-bottom: 1.25rem;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(220, 53, 69, 0.14), rgba(253, 126, 20, 0.14));
+  color: var(--danger);
+}
+
+.confirm-icon .material-icons {
+  font-size: 2.4rem;
+}
+
+.confirm-content h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.45rem;
+  color: var(--dark);
+}
+
+.confirm-content p {
+  margin: 0;
+  color: var(--gray);
+  font-size: 1rem;
+}
+
+.confirm-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.confirm-actions .btn {
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .confirm-modal {
+    padding: 1.5rem;
+    border-radius: 18px;
+  }
+
+  .confirm-actions {
+    grid-template-columns: 1fr;
+  }
+}
