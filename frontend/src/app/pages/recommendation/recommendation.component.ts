@@ -30,9 +30,9 @@ export class RecommendationComponent implements OnInit {
     if (this.preferences.north) regions.push('NORTH');
     if (this.preferences.central) regions.push('CENTRAL');
     if (this.preferences.south) regions.push('SOUTH');
-    if (this.preferences.beach) categories.push('bien');
+    if (this.preferences.beach) categories.push('bien-dao');
     if (this.preferences.mountain) categories.push('nui-rung');
-    if (this.preferences.historic) categories.push('di-tich');
+    if (this.preferences.historic) categories.push('di-san');
     if (this.preferences.nature) categories.push('thien-nhien');
 
     if (regions.length) prefs.regions = regions;
