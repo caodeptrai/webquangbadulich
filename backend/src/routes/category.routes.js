@@ -90,6 +90,19 @@ router.put('/destinations/:id', require('../middlewares/auth').authenticate, req
 
 router.delete('/destinations/:id', require('../middlewares/auth').authenticate, require('../middlewares/auth').requireAdmin, async (req, res, next) => {
   try {
+    const category = await prisma.destinationCategory.findUnique({
+      where: { id: req.params.id },
+      include: { _count: { select: { destinations: true } } },
+    });
+
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    if (category._count.destinations > 0) {
+      return res.status(400).json({ error: 'Cannot delete a category that still has destinations' });
+    }
+
     await prisma.destinationCategory.delete({ where: { id: req.params.id } });
     res.json({ message: 'Category deleted' });
   } catch (error) {
@@ -117,6 +130,19 @@ router.put('/articles/:id', require('../middlewares/auth').authenticate, require
 
 router.delete('/articles/:id', require('../middlewares/auth').authenticate, require('../middlewares/auth').requireAdmin, async (req, res, next) => {
   try {
+    const category = await prisma.articleCategory.findUnique({
+      where: { id: req.params.id },
+      include: { _count: { select: { articles: true } } },
+    });
+
+    if (!category) {
+      return res.status(404).json({ error: 'Category not found' });
+    }
+
+    if (category._count.articles > 0) {
+      return res.status(400).json({ error: 'Cannot delete a category that still has articles' });
+    }
+
     await prisma.articleCategory.delete({ where: { id: req.params.id } });
     res.json({ message: 'Category deleted' });
   } catch (error) {
