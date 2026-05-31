@@ -22,6 +22,7 @@ const errorHandler = (err, req, res, next) => {
 
   res.status(err.status || 500).json({
     error: err.message || 'Internal server error',
+    ...(err.remainingSeats !== undefined && { remainingSeats: err.remainingSeats }),
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
   });
 };
