@@ -97,6 +97,35 @@ export class ApiService {
     return this.http.delete(`${this.base}/tours/${id}`);
   }
 
+  // Bookings
+  createBooking(data: any): Observable<any> {
+    return this.http.post(`${this.base}/bookings`, data);
+  }
+
+  getMyBookings(): Observable<any> {
+    return this.http.get(`${this.base}/bookings/my`);
+  }
+
+  getBookings(params?: any): Observable<any> {
+    let httpParams = new HttpParams();
+    if (params) {
+      Object.keys(params).forEach(key => {
+        if (params[key] !== null && params[key] !== undefined && params[key] !== '') {
+          httpParams = httpParams.set(key, params[key].toString());
+        }
+      });
+    }
+    return this.http.get(`${this.base}/bookings`, { params: httpParams });
+  }
+
+  updateBookingStatus(id: string, status: string): Observable<any> {
+    return this.http.put(`${this.base}/bookings/${id}/status`, { status });
+  }
+
+  cancelBooking(id: string): Observable<any> {
+    return this.http.put(`${this.base}/bookings/${id}/cancel`, {});
+  }
+
   // Articles
   getArticles(params?: any): Observable<any> {
     let httpParams = new HttpParams();

@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
       },
       error: (err) => {
         console.error('Dashboard API error:', err);
-        this.stats = { destinations: 0, tours: 0, articles: 0, users: 0, reviews: 0, pendingInquiries: 0, activeUsers: 0 };
+        this.stats = { destinations: 0, tours: 0, articles: 0, users: 0, reviews: 0, pendingInquiries: 0, activeUsers: 0, pendingBookings: 0 };
         this.initChartOptions();
       }
     });
@@ -85,6 +85,7 @@ export class DashboardComponent implements OnInit {
         { name: 'Người dùng', type: 'spline', data: [0, 0, 0, 0, 0, 0], color: '#0d6efd' },
         { name: 'Đánh giá', type: 'spline', data: [0, 0, 0, 0, 0, 0], color: '#f59e0b' },
         { name: 'Yêu cầu', type: 'spline', data: [0, 0, 0, 0, 0, 0], color: '#22c55e' },
+        { name: 'Booking', type: 'spline', data: [0, 0, 0, 0, 0, 0], color: '#f59e0b' },
       ],
     };
 
@@ -124,6 +125,7 @@ export class DashboardComponent implements OnInit {
     (this.lineChartOptions.series as any[])[0]['data'] = monthlyStats.map((m: any) => m.users);
     (this.lineChartOptions.series as any[])[1]['data'] = monthlyStats.map((m: any) => m.reviews);
     (this.lineChartOptions.series as any[])[2]['data'] = monthlyStats.map((m: any) => m.inquiries);
+    (this.lineChartOptions.series as any[])[3]['data'] = monthlyStats.map((m: any) => m.bookings || 0);
     this.lineChartOptions.xAxis = { categories: monthlyStats.map((m: any) => m.month) };
     this.lineChartUpdateFlag = true;
   }

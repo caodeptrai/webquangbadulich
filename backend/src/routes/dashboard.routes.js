@@ -9,7 +9,7 @@ router.get('/', authenticate, requireAdmin, async (req, res, next) => {
   try {
     const [
       totalDestinations, totalTours, totalArticles, totalUsers,
-      totalReviews, pendingInquiries, activeUsers,
+      totalReviews, pendingInquiries, activeUsers, pendingBookings,
       recentInquiries, recentReviews, recentUsers,
       topDestinations, monthlyStats,
     ] = await Promise.all([
@@ -20,6 +20,7 @@ router.get('/', authenticate, requireAdmin, async (req, res, next) => {
       prisma.review.count(),
       prisma.inquiry.count({ where: { status: 'pending' } }),
       prisma.user.count({ where: { isActive: true } }),
+      prisma.booking.count({ where: { status: 'pending' } }),
       prisma.inquiry.findMany({
         where: { status: 'pending' },
         include: { user: { select: { fullName: true } } },
@@ -57,6 +58,7 @@ router.get('/', authenticate, requireAdmin, async (req, res, next) => {
         reviews: totalReviews,
         pendingInquiries,
         activeUsers,
+        pendingBookings,
       },
       recentInquiries,
       recentReviews,
@@ -78,10 +80,11 @@ async function getMonthlyStats() {
     const start = new Date(d.getFullYear(), d.getMonth(), 1);
     const end = new Date(d.getFullYear(), d.getMonth() + 1, 0);
 
-    const [users, reviews, inquiries] = await Promise.all([
+    const [users, reviews, inquiries, bookings] = await Promise.all([
       prisma.user.count({ where: { createdAt: { gte: start, lte: end } } }),
       prisma.review.count({ where: { createdAt: { gte: start, lte: end } } }),
       prisma.inquiry.count({ where: { createdAt: { gte: start, lte: end } } }),
+      prisma.booking.count({ where: { createdAt: { gte: start, lte: end } } }),
     ]);
 
     months.push({
@@ -89,6 +92,7 @@ async function getMonthlyStats() {
       users,
       reviews,
       inquiries,
+      bookings,
     });
   }
 

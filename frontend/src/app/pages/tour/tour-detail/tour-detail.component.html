@@ -52,10 +52,38 @@
               </div>
               <div class="info-row"><span class="material-icons">schedule</span> {{ tour.duration }}</div>
               <div class="info-row"><span class="material-icons">group</span> Tối đa {{ tour.maxPeople }} người</div>
-              <button class="btn btn-accent btn-lg" style="width:100%;" routerLink="/contact">
-                <span class="material-icons">support_agent</span>
-                Yêu cầu đặt tour
-              </button>
+              <form class="booking-form" (ngSubmit)="submitBooking()">
+                <label for="startDate">Ngày khởi hành</label>
+                <input id="startDate" name="startDate" type="date" class="form-control" [(ngModel)]="bookingForm.startDate" [min]="minDate" required>
+
+                <label for="peopleCount">Số người</label>
+                <input id="peopleCount" name="peopleCount" type="number" class="form-control" [(ngModel)]="bookingForm.peopleCount" min="1" [max]="tour.maxPeople" required>
+
+                <label for="contactName">Họ tên liên hệ</label>
+                <input id="contactName" name="contactName" type="text" class="form-control" [(ngModel)]="bookingForm.contactName" placeholder="Nguyễn Văn A" required>
+
+                <label for="contactEmail">Email</label>
+                <input id="contactEmail" name="contactEmail" type="email" class="form-control" [(ngModel)]="bookingForm.contactEmail" placeholder="email@example.com" required>
+
+                <label for="contactPhone">Số điện thoại</label>
+                <input id="contactPhone" name="contactPhone" type="tel" class="form-control" [(ngModel)]="bookingForm.contactPhone" placeholder="09xxxxxxxx" required>
+
+                <label for="note">Ghi chú</label>
+                <textarea id="note" name="note" class="form-control" rows="3" [(ngModel)]="bookingForm.note" placeholder="Yêu cầu đặc biệt nếu có"></textarea>
+
+                <div class="total-row">
+                  <span>Tạm tính</span>
+                  <strong>{{ totalAmount | number:'1.0-0' }}đ</strong>
+                </div>
+
+                <div class="alert alert-success" *ngIf="bookingSuccess">{{ bookingSuccess }}</div>
+                <div class="alert alert-danger" *ngIf="bookingError">{{ bookingError }}</div>
+
+                <button class="btn btn-accent btn-lg" type="submit" [disabled]="submitting" style="width:100%;">
+                  <span class="material-icons">event_available</span>
+                  {{ submitting ? 'Đang đặt tour...' : 'Xác nhận đặt tour' }}
+                </button>
+              </form>
               <a class="btn btn-outline" style="width:100%;margin-top:0.5rem;" routerLink="/contact">
                 <span class="material-icons">chat</span>
                 Tư vấn thêm
