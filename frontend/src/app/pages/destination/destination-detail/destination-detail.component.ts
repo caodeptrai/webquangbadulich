@@ -4,6 +4,7 @@ import { RouterModule, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../core/services/api.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { ConfirmDialogService } from '../../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-destination-detail',
@@ -23,7 +24,12 @@ export class DestinationDetailComponent implements OnInit {
   userReview: any = null;
   isEditingReview = false;
 
-  constructor(private api: ApiService, public auth: AuthService, private route: ActivatedRoute) {}
+  constructor(
+    private api: ApiService,
+    public auth: AuthService,
+    private route: ActivatedRoute,
+    private confirmDialog: ConfirmDialogService
+  ) {}
 
   ngOnInit() {
     const slug = this.route.snapshot.paramMap.get('slug') || this.route.snapshot.paramMap.get('id');
@@ -120,8 +126,16 @@ export class DestinationDetailComponent implements OnInit {
     });
   }
 
-  deleteReview() {
-    if (!this.userReview || !confirm('Bạn có chắc muốn xóa đánh giá này?')) return;
+  async deleteReview() {
+    if (!this.userReview) return;
+
+    const confirmed = await this.confirmDialog.confirm({
+      title: 'Xoá đánh giá?',
+      message: 'Đánh giá của bạn sẽ bị xoá vĩnh viễn khỏi điểm đến này.',
+      confirmText: 'Xoá đánh giá',
+    });
+    if (!confirmed) return;
+
     this.api.deleteReview(this.userReview.id).subscribe({
       next: () => {
         this.reviews = this.reviews.filter((r: any) => r.id !== this.userReview.id);

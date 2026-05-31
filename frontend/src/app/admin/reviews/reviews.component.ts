@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/services/api.service';
+import { ConfirmDialogService } from '../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-reviews',
@@ -19,7 +20,7 @@ export class ReviewsComponent implements OnInit {
   totalPages = 0;
   pageNumbers: (number | string)[] = [];
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private confirmDialog: ConfirmDialogService) {}
 
   ngOnInit() { this.load(); }
 
@@ -62,8 +63,13 @@ export class ReviewsComponent implements OnInit {
   prev() { if (this.page > 1) { this.page--; this.load(); } }
   next() { if (this.page < this.totalPages) { this.page++; this.load(); } }
 
-  delete(id: string) {
-    if (confirm('Xác nhận xóa đánh giá?')) this.api.deleteReview(id).subscribe(() => this.load());
+  async delete(id: string) {
+    const confirmed = await this.confirmDialog.confirm({
+      title: 'Xoá đánh giá?',
+      message: 'Đánh giá này sẽ bị xoá vĩnh viễn và không còn hiển thị trên trang.',
+      confirmText: 'Xoá đánh giá',
+    });
+    if (confirmed) this.api.deleteReview(id).subscribe(() => this.load());
   }
 
   getStars(rating: number): string[] {

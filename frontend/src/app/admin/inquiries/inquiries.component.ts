@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/services/api.service';
+import { ConfirmDialogService } from '../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-admin-inquiries',
@@ -20,7 +21,7 @@ export class AdminInquiriesComponent implements OnInit {
   totalPages = 0;
   pageNumbers: (number | string)[] = [];
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private confirmDialog: ConfirmDialogService) {}
 
   ngOnInit() { this.load(); }
 
@@ -69,7 +70,12 @@ export class AdminInquiriesComponent implements OnInit {
     this.api.updateInquiry(inq.id, { status: inq.status }).subscribe();
   }
 
-  delete(id: string) {
-    if (confirm('Xác nhận xóa?')) this.api.deleteInquiry(id).subscribe(() => this.load());
+  async delete(id: string) {
+    const confirmed = await this.confirmDialog.confirm({
+      title: 'Xoá yêu cầu?',
+      message: 'Yêu cầu tư vấn này sẽ bị xoá vĩnh viễn khỏi hệ thống.',
+      confirmText: 'Xoá yêu cầu',
+    });
+    if (confirmed) this.api.deleteInquiry(id).subscribe(() => this.load());
   }
 }

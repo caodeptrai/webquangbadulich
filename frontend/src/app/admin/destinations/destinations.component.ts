@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/services/api.service';
+import { ConfirmDialogService } from '../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'app-admin-destinations',
@@ -21,7 +22,7 @@ export class AdminDestinationsComponent implements OnInit {
   totalPages = 0;
   pageNumbers: (number | string)[] = [];
 
-  constructor(private api: ApiService) {}
+  constructor(private api: ApiService, private confirmDialog: ConfirmDialogService) {}
 
   ngOnInit() { this.load(); }
 
@@ -67,9 +68,12 @@ export class AdminDestinationsComponent implements OnInit {
   prev() { if (this.page > 1) { this.page--; this.load(); } }
   next() { if (this.page < this.totalPages) { this.page++; this.load(); } }
 
-  delete(id: string) {
-    if (confirm('Xác nhận xóa?')) {
-      this.api.deleteDestination(id).subscribe(() => this.load());
-    }
+  async delete(id: string) {
+    const confirmed = await this.confirmDialog.confirm({
+      title: 'Xoá điểm đến?',
+      message: 'Điểm đến này sẽ bị xoá vĩnh viễn cùng các thông tin liên quan.',
+      confirmText: 'Xoá điểm đến',
+    });
+    if (confirmed) this.api.deleteDestination(id).subscribe(() => this.load());
   }
 }
